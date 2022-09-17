@@ -16,6 +16,11 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public event System.Action<GameState> gameStateChanged;
 
+    protected void Start()
+    {
+        ChangeGameState(GameState.Building);
+    }
+
     public void ChangeGameState(GameState newGameState)
     {
         StartCoroutine(ChangeStateAfterFrame(newGameState));
