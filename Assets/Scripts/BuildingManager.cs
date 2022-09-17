@@ -13,8 +13,8 @@ public class BuildingManager : MonoBehaviour
     public float _rotateSpeed;
     public GameObject _floor;
     public bool IsDragging => _currentlyDragging != null;
-    public GameObject CurrentlyDragging => _currentlyDragging?._itemParent;
-    private AttachableItem _currentlyDragging;
+    public GameObject CurrentlyDragging => _currentlyDragging?.gameObject;
+    private AttachableItemBody _currentlyDragging;
 
     void Awake()
     {
@@ -39,6 +39,7 @@ public class BuildingManager : MonoBehaviour
         {
             if (!Input.GetKey(KeyCode.Mouse0))
             {
+                _currentlyDragging.Release();
                 ReleaseObject();
             }
             else if (Input.GetAxis("Mouse ScrollWheel") != 0)
@@ -74,11 +75,10 @@ public class BuildingManager : MonoBehaviour
         _draggingParent.transform.position = pos;
     }
 
-    public void ReleaseObject(bool rigidbodyKinematic = false)
+    public void ReleaseObject()
     {
         if (_currentlyDragging == null)
             return;
-        _currentlyDragging.Detach(AttachableItem.ItemState.Neutral);
         _currentlyDragging = null;
     }
 
@@ -91,7 +91,7 @@ public class BuildingManager : MonoBehaviour
             GameObject objectHit = hits[1].transform.gameObject;
             if (objectHit != _floor)
             {
-                var clicked = objectHit.GetComponentInChildren<AttachableItem>();
+                var clicked = objectHit.GetComponent<AttachableItemBody>();
                 if (clicked && clicked.TryGrab(_draggingParent.transform))
                 {
                     _currentlyDragging = clicked;
@@ -102,6 +102,7 @@ public class BuildingManager : MonoBehaviour
 
     private void RotateGrabbed(float amount)
     {
-        _draggingParent.transform.localEulerAngles += Vector3.up * (_rotateSpeed * Time.deltaTime) * amount;
+        if(_draggingParent.transform.childCount > 0)
+            _draggingParent.transform.GetChild(0).localEulerAngles += Vector3.up * (_rotateSpeed * Time.deltaTime) * amount;
     }
 }
