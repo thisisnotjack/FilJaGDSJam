@@ -5,9 +5,9 @@ using UnityEngine;
 public class EngineAffector : MonoBehaviour
 {
     [SerializeField] float _engineStrength;
-    [SerializeField] Vector3 _engineThrustDirection;
+    [SerializeField] Transform _engineThrustDirectionPoint;
     [SerializeField] Transform _engineBasePositionTransform;
     public float engineSrength => _engineStrength;
-    public Vector3 engineThrustDirection => _engineThrustDirection;
+    public Vector3 engineThrustDirection => (_engineThrustDirectionPoint.position - transform.position).normalized;
     public Transform centerTransform => _engineBasePositionTransform;
 }
