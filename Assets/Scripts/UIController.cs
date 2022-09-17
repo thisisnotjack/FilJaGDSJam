@@ -46,6 +46,7 @@ public class UIController : MonoBehaviour
 
     private void DisableAllUI()
     {
+        _menuUI.SetActive(false);
         _buildingUI.SetActive(false);
         _launchUI.SetActive(false);
         _flyingUI.SetActive(false);
