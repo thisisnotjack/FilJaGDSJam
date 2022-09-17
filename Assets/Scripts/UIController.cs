@@ -5,6 +5,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject _buildingUI;
     [SerializeField] GameObject _flyingUI;
     [SerializeField] GameObject _launchUI;
+    [SerializeField] GameObject _gameEndUI;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,10 @@ public class UIController : MonoBehaviour
             case GameStateManager.GameState.Transition:
                 DisableAllUI();
                 break;
+            case GameStateManager.GameState.GameEnd:
+                DisableAllUI();
+                _gameEndUI.SetActive(true);
+                break;
         }
     }
 
@@ -39,5 +44,6 @@ public class UIController : MonoBehaviour
         _buildingUI.SetActive(false);
         _launchUI.SetActive(false);
         _flyingUI.SetActive(false);
+        _gameEndUI.SetActive(false);
     }
 }
