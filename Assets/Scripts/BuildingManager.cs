@@ -10,8 +10,6 @@ public class BuildingManager : MonoBehaviour
     private static BuildingManager _instance;
     public LayerMask _buildingLayerMask;
     public Transform _draggingParent;
-    public Transform _rotationAxis;
-    public float _camRotateSpeed;
     public Camera _camera;
     public float _rotateSpeed;
     public GameObject _floor;
@@ -42,11 +40,6 @@ public class BuildingManager : MonoBehaviour
     {
         if (!_inBuildingMode)
             return;
-        float rotationDir = Input.GetAxis("Horizontal");
-        if (rotationDir != 0)
-        {
-            _rotationAxis.Rotate(rotationDir * Vector3.up * _camRotateSpeed * Time.deltaTime);
-        }
         UpdateDraggingPos();
         if (IsDragging)
         {

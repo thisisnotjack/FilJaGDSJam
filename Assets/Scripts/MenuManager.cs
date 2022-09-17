@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
         switch (state)
         {
             case GameStateManager.GameState.Menu:
-               _cameraFollow.DOLocalMove(  _menuModeCameraOrigin.transform.localPosition, 1f);
+                _cameraFollow.DOLocalMove(_menuModeCameraOrigin.transform.localPosition, 3f);
                 break;
             case GameStateManager.GameState.Building:
                 
