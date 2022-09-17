@@ -8,6 +8,7 @@ public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance => _instance;
     private static BuildingManager _instance;
+    public LayerMask _buildingLayerMask;
     public Transform _draggingParent;
     public Camera _camera;
     public float _rotateSpeed;
@@ -59,7 +60,7 @@ public class BuildingManager : MonoBehaviour
         RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         Vector3 pos = ray.origin + ray.direction * 5f;
-        hits = Physics.RaycastAll(ray, 100f);
+        hits = Physics.RaycastAll(ray, 100f, _buildingLayerMask);
         if (hits.Length > 0)
         {
             var floorHit = hits[0];
@@ -86,7 +87,7 @@ public class BuildingManager : MonoBehaviour
     {
         RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        hits = Physics.RaycastAll(ray, 100f);
+        hits = Physics.RaycastAll(ray, 100f, _buildingLayerMask);
         if (hits.Length > 1) {
             GameObject objectHit = hits[1].transform.gameObject;
             if (objectHit != _floor)

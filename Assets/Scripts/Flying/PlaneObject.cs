@@ -1,20 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlaneObject : MonoBehaviour
 {
     [SerializeField] PlanePhysicsFlightController _planePhysicsFlightController;
     [SerializeField] PlaneStartPushController _planeStartPushController;
     [SerializeField] float _startPushDuration;
+    [SerializeField] Transform _craneAttachPoint;
+    [SerializeField] Rigidbody _rigidbody;
+    public Transform craneAttachPoint => _craneAttachPoint;
 
     private bool _startingPushInProgress = false;
+    private bool _flightInProgress = false;
     private float _pushStartTime;
-
-    protected void Start()
-    {
-        StartPush();
-    }
 
     protected void Update()
     {
@@ -24,10 +21,11 @@ public class PlaneObject : MonoBehaviour
             if ((Time.time - _pushStartTime) >= _startPushDuration)
             {
                 _startingPushInProgress = false;
+                _flightInProgress = true;
                 Debug.Log("Initial push ended");
             }
         }
-        else
+        else if(_flightInProgress)
         {
             _planePhysicsFlightController.ProcessFlight();
         }
@@ -48,4 +46,31 @@ public class PlaneObject : MonoBehaviour
         _startingPushInProgress = true;
     }
 
+    public void DisableMovement()
+    {
+        //TODO
+        _rigidbody.isKinematic = true;
+    }
+
+    public void DisableColliders()
+    {
+        foreach (var collider in gameObject.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = false;
+        }
+    }
+
+    public void EnableMovement()
+    {
+        //TODO
+        _rigidbody.isKinematic = false;
+    }
+
+    public void EnableColliders()
+    {
+        foreach (var collider in gameObject.GetComponentsInChildren<Collider>(includeInactive: true))
+        {
+            collider.enabled = true;
+        }
+    }
 }
