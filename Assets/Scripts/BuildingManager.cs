@@ -17,6 +17,7 @@ public class BuildingManager : MonoBehaviour
     public GameObject _floor;
     public Transform _planeBuildingPositionTransform;
     public bool IsDragging => _currentlyDragging != null;
+    bool _inBuildingMode = false;
     public GameObject CurrentlyDragging => _currentlyDragging?.gameObject;
     private AttachableItemBody _currentlyDragging;
 
@@ -39,6 +40,8 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!_inBuildingMode)
+            return;
         float rotationDir = Input.GetAxis("Horizontal");
         if (rotationDir != 0)
         {
@@ -115,13 +118,14 @@ public class BuildingManager : MonoBehaviour
         if(_draggingParent.transform.childCount > 0)
             _draggingParent.transform.GetChild(0).Rotate(Vector3.right * _rotateSpeed * Time.deltaTime * amount);
     }
-
     private void HandleGameStateChanged(GameStateManager.GameState gameState)
     {
+        _inBuildingMode = false;
         if(gameState == GameStateManager.GameState.Building)
         {
             //Reset building state - position of the plane etc.
             PlaneManager.instance.MovePlaneToTransform(_planeBuildingPositionTransform);
+            _inBuildingMode = true;
         }
     }
 }

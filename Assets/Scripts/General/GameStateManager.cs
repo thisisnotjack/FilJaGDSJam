@@ -5,6 +5,7 @@ public class GameStateManager : Singleton<GameStateManager>
 {
     public enum GameState
     {
+        Menu,
         Building,
         Transition,
         LaunchPrepearation,
@@ -12,14 +13,10 @@ public class GameStateManager : Singleton<GameStateManager>
         GameEnd
     }
     private GameState _currentGameState;
+    
     public GameState currentGameState => _currentGameState;
 
     public event System.Action<GameState> gameStateChanged;
-
-    protected void Start()
-    {
-        ChangeGameState(GameState.Building);
-    }
 
     public void ChangeGameState(GameState newGameState)
     {

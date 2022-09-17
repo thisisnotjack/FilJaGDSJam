@@ -2,6 +2,7 @@
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] GameObject _menuUI;
     [SerializeField] GameObject _buildingUI;
     [SerializeField] GameObject _flyingUI;
     [SerializeField] GameObject _launchUI;
@@ -17,6 +18,10 @@ public class UIController : MonoBehaviour
     {
         switch (gameState)
         {
+            case GameStateManager.GameState.Menu:
+                DisableAllUI();
+                _menuUI.SetActive(true);
+                break;
             case GameStateManager.GameState.Building:
                 DisableAllUI();
                 _buildingUI.SetActive(true);
