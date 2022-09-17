@@ -27,10 +27,12 @@ public class AttachPoint : MonoBehaviour
         return true;
     }
 
-    public void DetachObject()
+    public void DetachObject(GameObject obj)
     {
-        _isTaken = false;
-        _attachedObject = null;
-        // move back item or something
+        if (_attachedObject == obj)
+        {
+            _isTaken = false;
+            _attachedObject = null;
+        }
     }
 }

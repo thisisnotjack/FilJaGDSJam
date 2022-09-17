@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -9,10 +10,11 @@ public class BuildingManager : MonoBehaviour
     private static BuildingManager _instance;
     public Transform _draggingParent;
     public Camera _camera;
+    public float _rotateSpeed;
+    public GameObject _floor;
     public bool IsDragging => _currentlyDragging != null;
     public GameObject CurrentlyDragging => _currentlyDragging?._itemParent;
     private AttachableItem _currentlyDragging;
-    private float _grabHeight;
 
     void Awake()
     {
@@ -35,16 +37,14 @@ public class BuildingManager : MonoBehaviour
         UpdateDraggingPos();
         if (IsDragging)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                // drag object
-            }
-            else
+            if (!Input.GetKey(KeyCode.Mouse0))
             {
                 ReleaseObject();
-                //release object, maybe attach 
             }
-            
+            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                RotateGrabbed(Input.GetAxis("Mouse ScrollWheel"));
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -54,46 +54,54 @@ public class BuildingManager : MonoBehaviour
 
     private void UpdateDraggingPos()
     {
-        if (IsDragging)
-            _currentlyDragging._itemParent.gameObject.SetActive(false);
-
-        RaycastHit hit;
+        
+        RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         Vector3 pos = ray.origin + ray.direction * 5f;
-        if (Physics.Raycast(ray, out hit))
+        hits = Physics.RaycastAll(ray, 100f);
+        if (hits.Length > 0)
         {
-            pos = hit.point;
-            pos.y += _grabHeight;
+            var floorHit = hits[0];
+            foreach (var hit in hits)
+            {
+                if (hit.transform.gameObject == _floor)
+                {
+                    floorHit = hit;
+                }
+            }
+            pos = floorHit.point;
         }
         _draggingParent.transform.position = pos;
-        if(IsDragging)
-            _currentlyDragging._itemParent.gameObject.SetActive(true);
     }
 
     public void ReleaseObject(bool rigidbodyKinematic = false)
     {
         if (_currentlyDragging == null)
             return;
-        _grabHeight = 0f;
-        _currentlyDragging._itemParent.transform.parent = null;                
-        _currentlyDragging._itemParent.GetComponent<Rigidbody>().isKinematic = rigidbodyKinematic;
+        _currentlyDragging.Detach(AttachableItem.ItemState.Neutral);
         _currentlyDragging = null;
     }
 
     private void TryGrabObject()
     {
-        RaycastHit hit;
+        RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)) {
-            GameObject objectHit = hit.transform.gameObject;
-            var clicked = objectHit.GetComponentInChildren<AttachableItem>();
-            if (clicked)
+        hits = Physics.RaycastAll(ray, 100f);
+        if (hits.Length > 1) {
+            GameObject objectHit = hits[1].transform.gameObject;
+            if (objectHit != _floor)
             {
-                _currentlyDragging = clicked;
-                _currentlyDragging._itemParent.GetComponent<Rigidbody>().isKinematic = true;
-                _currentlyDragging._itemParent.transform.parent = _draggingParent.transform;
-                _grabHeight = hit.point.y;
+                var clicked = objectHit.GetComponentInChildren<AttachableItem>();
+                if (clicked && clicked.TryGrab(_draggingParent.transform))
+                {
+                    _currentlyDragging = clicked;
+                }
             }
         }
+    }
+
+    private void RotateGrabbed(float amount)
+    {
+        _draggingParent.transform.localEulerAngles += Vector3.up * (_rotateSpeed * Time.deltaTime) * amount;
     }
 }
