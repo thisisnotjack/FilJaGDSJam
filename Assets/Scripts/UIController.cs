@@ -21,7 +21,7 @@ public class UIController : MonoBehaviour
                 DisableAllUI();
                 _buildingUI.SetActive(true);
                 break;
-            case GameStateManager.GameState.Launch:
+            case GameStateManager.GameState.LaunchPrepearation:
                 DisableAllUI();
                 _launchUI.SetActive(true);
                 break;

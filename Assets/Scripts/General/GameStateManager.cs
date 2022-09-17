@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameStateManager : Singleton<GameStateManager>
 {
@@ -6,7 +7,7 @@ public class GameStateManager : Singleton<GameStateManager>
     {
         Building,
         Transition,
-        Launch,
+        LaunchPrepearation,
         Flying,
         GameEnd
     }
@@ -17,8 +18,20 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public void ChangeGameState(GameState newGameState)
     {
+        StartCoroutine(ChangeStateAfterFrame(newGameState));
+    }
+
+    private void ChangeGameStateInternal(GameState newGameState)
+    {
         _currentGameState = newGameState;
         print("Game state changes to " + newGameState);
         gameStateChanged?.Invoke(newGameState);
     }
+
+    private IEnumerator ChangeStateAfterFrame(GameState state)
+    {
+        yield return new WaitForEndOfFrame();
+        ChangeGameStateInternal(state);
+    }
+
 }

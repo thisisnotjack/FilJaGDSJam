@@ -14,10 +14,10 @@ public class FlyingManager : Singleton<FlyingManager>
 
     private void HandleGameStateChanged(GameStateManager.GameState gameState)
     {
-        if(gameState == GameStateManager.GameState.Launch)
+        if(gameState == GameStateManager.GameState.LaunchPrepearation)
         {
             //Set plane position to ballista position
-            PlaneManager.instance.MovePlanetoTransform(_platformPlanePositionTransform);
+            PlaneManager.instance.MovePlaneToTransform(_platformPlanePositionTransform);
             GameStateManager.instance.ChangeGameState(GameStateManager.GameState.Flying);
         }
         if(gameState == GameStateManager.GameState.Flying)
@@ -28,7 +28,7 @@ public class FlyingManager : Singleton<FlyingManager>
 
     public void StartFlying()
     {
-        PlaneManager.instance.planeObject.EnableCollider();
+        PlaneManager.instance.planeObject.EnablePlaneCollider();
         PlaneManager.instance.planeObject.StartPush();
     }
 }
