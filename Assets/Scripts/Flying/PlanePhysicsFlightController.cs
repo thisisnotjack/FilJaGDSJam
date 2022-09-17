@@ -7,6 +7,9 @@ public class PlanePhysicsFlightController : MonoBehaviour
     [SerializeField] Rigidbody _rigidbody;
     [SerializeField] float _underwaterDrag = 2.0f;
     [SerializeField] float _underwaterAngularDrag = 5.0f;
+    [SerializeField] float _amountOfGravityToShiftToCenter = 0.0f;
+    [SerializeField] float _amountOfResistanceToShiftToCenter = 0.0f;
+    [SerializeField] float _amountOfEnginesToShiftToCenter = 0.0f;
 
     private PhysicsAffector[] _physicsAffectors;
     private EngineAffector[] _engineAffectors;
@@ -14,12 +17,10 @@ public class PlanePhysicsFlightController : MonoBehaviour
     private PlanePhysicsData _planePhysicsData;
     private float _forcesMultiplier = 1;
 
-    void Start()
+    protected void Start()
     {
-        _physicsAffectors = GetComponentsInChildren<PhysicsAffector>();
-        _engineAffectors = GetComponentsInChildren<EngineAffector>();
+        GameStateManager.instance.gameStateChanged += HandleGameStateChanged;
     }
-
     public void ProcessFlight()
     {
         ApplyForcesForAffectors();
@@ -31,9 +32,17 @@ public class PlanePhysicsFlightController : MonoBehaviour
         foreach (var affector in _physicsAffectors)
         {
             //Add gravity
-            _rigidbody.AddForceAtPosition(_forcesMultiplier * affector.weight * Physics.gravity, affector.position);
+            var gravityForceToAdd = _forcesMultiplier * affector.weight * Physics.gravity;
+            _rigidbody.AddForceAtPosition((1 - _amountOfGravityToShiftToCenter) * gravityForceToAdd, affector.position);
+            _rigidbody.AddForce((_amountOfGravityToShiftToCenter) * gravityForceToAdd);
             //Add resistance
-            _rigidbody.AddForceAtPosition(affector.transform.rotation * (_forcesMultiplier * affector.resistance * Vector3.up), affector.position);
+            
+            var positionVector = transform.position - affector.position;
+            var angle = Vector3.Angle(positionVector, Vector3.up);
+            var multiplier = Mathf.Sin(Mathf.Deg2Rad * angle);
+            var resistanceForceToAdd = multiplier * (_forcesMultiplier * affector.resistance * Vector3.up);
+            _rigidbody.AddForceAtPosition((1 - _amountOfResistanceToShiftToCenter) * ((resistanceForceToAdd)), affector.position);
+            _rigidbody.AddForce((_amountOfResistanceToShiftToCenter) * ((resistanceForceToAdd)));
         }
     }
 
@@ -41,7 +50,9 @@ public class PlanePhysicsFlightController : MonoBehaviour
     {
         foreach (var engineAffector in _engineAffectors)
         {
-            _rigidbody.AddForceAtPosition(engineAffector.centerTransform.rotation * (_forcesMultiplier * engineAffector.engineSrength * engineAffector.engineThrustDirection), engineAffector.centerTransform.position);
+            var engineForceToAdd = engineAffector.centerTransform.rotation * (_forcesMultiplier * engineAffector.engineSrength * engineAffector.engineThrustDirection);
+            _rigidbody.AddForceAtPosition((1 - _amountOfEnginesToShiftToCenter) * engineForceToAdd, engineAffector.centerTransform.position);
+            _rigidbody.AddForce((_amountOfEnginesToShiftToCenter) * engineForceToAdd);
         }
     }
 
@@ -50,5 +61,14 @@ public class PlanePhysicsFlightController : MonoBehaviour
         _forcesMultiplier = 1f;
         _rigidbody.drag = _underwaterDrag;
         _rigidbody.angularDrag = _underwaterAngularDrag;
+    }
+
+    private void HandleGameStateChanged(GameStateManager.GameState gameState)
+    {
+        if(gameState == GameStateManager.GameState.Transition)
+        {
+            _physicsAffectors = GetComponentsInChildren<PhysicsAffector>();
+            _engineAffectors = GetComponentsInChildren<EngineAffector>();
+        }
     }
 }

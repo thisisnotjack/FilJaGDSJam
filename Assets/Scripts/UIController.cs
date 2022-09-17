@@ -40,6 +40,7 @@ public class UIController : MonoBehaviour
             case GameStateManager.GameState.GameEnd:
                 DisableAllUI();
                 _gameEndUI.SetActive(true);
+                _flyingUI.SetActive(true);
                 break;
         }
     }

@@ -4162,7 +4162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _planePhysicsFlightController: {fileID: 1425616034}
   _planeStartPushController: {fileID: 1425616032}
-  _startPushDuration: 0.5
+  _startPushDuration: 0.1
   _craneAttachPoint: {fileID: 1557584496}
   _rigidbody: {fileID: 1425616033}
 --- !u!114 &1425616032
@@ -4179,7 +4179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1425616033}
   _startPushDirection: {x: 0, y: 0.5, z: 1.5}
-  _startPushStrength: 25
+  _startPushStrength: 100
 --- !u!54 &1425616033
 Rigidbody:
   m_ObjectHideFlags: 0
