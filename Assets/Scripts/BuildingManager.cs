@@ -10,6 +10,8 @@ public class BuildingManager : MonoBehaviour
     private static BuildingManager _instance;
     public LayerMask _buildingLayerMask;
     public Transform _draggingParent;
+    public Transform _rotationAxis;
+    public float _camRotateSpeed;
     public Camera _camera;
     public float _rotateSpeed;
     public GameObject _floor;
@@ -37,6 +39,11 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float rotationDir = Input.GetAxis("Horizontal");
+        if (rotationDir != 0)
+        {
+            _rotationAxis.Rotate(rotationDir * Vector3.up * _camRotateSpeed * Time.deltaTime);
+        }
         UpdateDraggingPos();
         if (IsDragging)
         {
@@ -106,7 +113,7 @@ public class BuildingManager : MonoBehaviour
     private void RotateGrabbed(float amount)
     {
         if(_draggingParent.transform.childCount > 0)
-            _draggingParent.transform.GetChild(0).localEulerAngles += Vector3.up * (_rotateSpeed * Time.deltaTime) * amount;
+            _draggingParent.transform.GetChild(0).Rotate(Vector3.right * _rotateSpeed * Time.deltaTime * amount);
     }
 
     private void HandleGameStateChanged(GameStateManager.GameState gameState)
