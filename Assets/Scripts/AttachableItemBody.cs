@@ -10,6 +10,8 @@ public class AttachableItemBody : MonoBehaviour
     private Rigidbody _rigidbody;
     public bool _isGrabbed;
     public bool IsGrabbed => _isGrabbed;
+    private const int angleToSnapTo = 30;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -70,6 +72,10 @@ public class AttachableItemBody : MonoBehaviour
             _isGrabbed = false;
             BuildingManager.Instance.ReleaseObject();
         }
+        var eulers = transform.rotation.eulerAngles;
+        eulers.y = (Mathf.Round(eulers.y / angleToSnapTo)) * angleToSnapTo;
+        print(eulers.y);
+        transform.rotation = Quaternion.Euler(eulers);
         from.transform.parent = to.transform;
         transform.parent = from.transform;
         from.transform.localPosition = Vector3.zero;

@@ -18,8 +18,6 @@ public class BuildingManager : MonoBehaviour
     bool _inBuildingMode = false;
     public GameObject CurrentlyDragging => _currentlyDragging?.gameObject;
     private AttachableItemBody _currentlyDragging;
-    private float _grabbedCurrentAngle = 0;
-    private int _numberOfSteps = 12;
 
     void Awake()
     {
@@ -103,8 +101,6 @@ public class BuildingManager : MonoBehaviour
                 if (clicked && clicked.TryGrab(_draggingParent.transform))
                 {
                     _currentlyDragging = clicked;
-                    if (_draggingParent.transform.childCount > 0)
-                        _grabbedCurrentAngle = _draggingParent.transform.rotation.eulerAngles.x;
                 }
             }
         }
@@ -114,10 +110,7 @@ public class BuildingManager : MonoBehaviour
     {
         if(_draggingParent.transform.childCount > 0)
         {
-            _grabbedCurrentAngle += _rotateSpeed * Time.deltaTime * amount;
             _draggingParent.transform.GetChild(0).Rotate(Vector3.right * _rotateSpeed * Time.deltaTime * amount);
-
-
         }
     }
     private void HandleGameStateChanged(GameStateManager.GameState gameState)
