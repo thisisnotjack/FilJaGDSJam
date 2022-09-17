@@ -7,11 +7,14 @@ public class PlaneObject : MonoBehaviour
     [SerializeField] float _startPushDuration;
     [SerializeField] Transform _craneAttachPoint;
     [SerializeField] Rigidbody _rigidbody;
+   
     public Transform craneAttachPoint => _craneAttachPoint;
+    public event System.Action hitWater;
 
     private bool _startingPushInProgress = false;
     private bool _flightInProgress = false;
     private float _pushStartTime;
+    private bool _underwater = false;
 
     protected void Update()
     {
@@ -34,9 +37,11 @@ public class PlaneObject : MonoBehaviour
     protected void OnTriggerEnter(Collider other)
     {
         var waterLayerMask = LayerMask.GetMask("Water");
-        if (waterLayerMask == (waterLayerMask | (1 << other.gameObject.layer)))
+        if (!_underwater && waterLayerMask == (waterLayerMask | (1 << other.gameObject.layer)))
         {
+            _underwater = true;
             _planePhysicsFlightController.SetWaterMultipliers();
+            hitWater?.Invoke();
         }
     }
 
@@ -66,11 +71,9 @@ public class PlaneObject : MonoBehaviour
         _rigidbody.isKinematic = false;
     }
 
-    public void EnableColliders()
+    public void EnableCollider()
     {
-        foreach (var collider in gameObject.GetComponentsInChildren<Collider>(includeInactive: true))
-        {
-            collider.enabled = true;
-        }
+        var collider = GetComponent<Collider>();
+        collider.enabled = true;
     }
 }

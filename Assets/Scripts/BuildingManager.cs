@@ -13,6 +13,7 @@ public class BuildingManager : MonoBehaviour
     public Camera _camera;
     public float _rotateSpeed;
     public GameObject _floor;
+    public Transform _planeBuildingPositionTransform;
     public bool IsDragging => _currentlyDragging != null;
     public GameObject CurrentlyDragging => _currentlyDragging?.gameObject;
     private AttachableItemBody _currentlyDragging;
@@ -30,6 +31,7 @@ public class BuildingManager : MonoBehaviour
     {
         if (_camera == null)
             _camera = Camera.main;
+        GameStateManager.instance.gameStateChanged += HandleGameStateChanged;
     }
 
     // Update is called once per frame
@@ -105,5 +107,14 @@ public class BuildingManager : MonoBehaviour
     {
         if(_draggingParent.transform.childCount > 0)
             _draggingParent.transform.GetChild(0).localEulerAngles += Vector3.up * (_rotateSpeed * Time.deltaTime) * amount;
+    }
+
+    private void HandleGameStateChanged(GameStateManager.GameState gameState)
+    {
+        if(gameState == GameStateManager.GameState.Building)
+        {
+            //Reset building state - position of the plane etc.
+            PlaneManager.instance.MovePlanetoTransform(_planeBuildingPositionTransform);
+        }
     }
 }

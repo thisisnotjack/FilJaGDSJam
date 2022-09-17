@@ -7,7 +7,8 @@ public class GameStateManager : Singleton<GameStateManager>
         Building,
         Transition,
         Launch,
-        Flying
+        Flying,
+        GameEnd
     }
     private GameState _currentGameState;
     public GameState currentGameState => _currentGameState;
