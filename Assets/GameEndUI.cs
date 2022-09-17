@@ -19,7 +19,7 @@ public class GameEndUI : MonoBehaviour
 
     private void HandleBackToLaunchButtonPressed()
     {
-        GameStateManager.instance.ChangeGameState(GameStateManager.GameState.Launch);
+        GameStateManager.instance.ChangeGameState(GameStateManager.GameState.LaunchPrepearation);
     }
 
 }

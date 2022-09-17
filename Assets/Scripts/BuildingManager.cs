@@ -121,7 +121,7 @@ public class BuildingManager : MonoBehaviour
         if(gameState == GameStateManager.GameState.Building)
         {
             //Reset building state - position of the plane etc.
-            PlaneManager.instance.MovePlanetoTransform(_planeBuildingPositionTransform);
+            PlaneManager.instance.MovePlaneToTransform(_planeBuildingPositionTransform);
         }
     }
 }

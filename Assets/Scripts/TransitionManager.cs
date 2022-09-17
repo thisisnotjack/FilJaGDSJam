@@ -27,6 +27,6 @@ public class TransitionManager : Singleton<TransitionManager>
 
     private void HandleCraneMovementFinished()
     {
-        GameStateManager.instance.ChangeGameState(GameStateManager.GameState.Launch);
+        GameStateManager.instance.ChangeGameState(GameStateManager.GameState.LaunchPrepearation);
     }
 }

@@ -15,6 +15,14 @@ public class PlaneObject : MonoBehaviour
     private bool _flightInProgress = false;
     private float _pushStartTime;
     private bool _underwater = false;
+    private float _baseDrag;
+    private float _baseAngularDrag;
+
+    protected void Start()
+    {
+        _baseDrag = _rigidbody.drag;
+        _baseAngularDrag = _rigidbody.angularDrag;
+    }
 
     protected void Update()
     {
@@ -45,6 +53,15 @@ public class PlaneObject : MonoBehaviour
         }
     }
 
+    public void ResetInternalState()
+    {
+        _underwater = false;
+        _flightInProgress = false;
+        _startingPushInProgress = false;
+        _rigidbody.drag = _baseDrag;
+        _rigidbody.angularDrag = _baseAngularDrag;
+    }
+
     public void StartPush()
     {
         _pushStartTime = Time.time;
@@ -53,6 +70,7 @@ public class PlaneObject : MonoBehaviour
 
     public void DisableMovement()
     {
+        print("disabling movenet");
         //TODO
         _rigidbody.isKinematic = true;
     }
@@ -68,10 +86,19 @@ public class PlaneObject : MonoBehaviour
     public void EnableMovement()
     {
         //TODO
+        print("Enabling movement");
         _rigidbody.isKinematic = false;
     }
 
-    public void EnableCollider()
+    public void EnableAllColliders()
+    {
+        foreach (var collider in gameObject.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = true;
+        }
+    }
+
+    public void EnablePlaneCollider()
     {
         var collider = GetComponent<Collider>();
         collider.enabled = true;
