@@ -57,7 +57,7 @@ public class AttachableItemBody : MonoBehaviour
                 {
                     if (_itemAttachPoint[i]._attachedTo._itemBody.transform.parent != _itemAttachPoint[i].transform)
                     {
-                        Debug.LogError("FILIP PLEASE LET ME KNOW ABOUT THIS!");
+                        Debug.Log("FILIP PLEASE LET ME KNOW ABOUT THIS!");
                     }
                 }
             }
