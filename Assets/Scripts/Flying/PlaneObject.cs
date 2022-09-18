@@ -10,7 +10,7 @@ public class PlaneObject : MonoBehaviour
     [SerializeField] AudioSource _baseSoundAudioSource;
     [SerializeField] AudioSource _splashSoundAudioSource;
     [SerializeField] AudioSource _domeHitSoundAudioSource;
-
+    [SerializeField] GameObject _splashParticleSystemPrefab;
     public Transform craneAttachPoint => _craneAttachPoint;
     public event System.Action hitWater;
     public AudioSource baseSoundAudioSource => _baseSoundAudioSource;
@@ -67,6 +67,10 @@ public class PlaneObject : MonoBehaviour
             _splashSoundAudioSource.Play();
             _planePhysicsFlightController.SetWaterMultipliers();
             hitWater?.Invoke();
+            var splash = Instantiate(_splashParticleSystemPrefab);
+            var newPos = transform.position;
+            newPos.y = 0;
+            splash.transform.position = newPos;
         }
     }
 
