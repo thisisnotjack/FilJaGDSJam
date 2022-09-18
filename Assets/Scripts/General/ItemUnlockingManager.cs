@@ -15,18 +15,39 @@ public class ItemUnlockingManager : MonoBehaviour
     public List<GameObject> _initiallyUnlockedItems;
 
     private List<GameObject> _unlockedItems;
-
+    private int _instantiatedIndex = 0;
+    public Transform _itemCollection;
     public List<GameObject> UnlockedItems => _unlockedItems;
 
     private GameObject _lastUnlockedDistItem;
     private GameObject _lastUnlockedHeightItem;
+    private Transform[] _itemCollectionTransforms;
     void Start()
     {
+        _itemCollectionTransforms = _itemCollection.GetComponentsInChildren<Transform>();
         if (_flyingManager == null)
             _flyingManager = FindObjectOfType<FlyingManager>();
         _unlockedItems = new List<GameObject>();
         _unlockedItems.AddRange(_initiallyUnlockedItems);
+        InstantiateItems();
     }
+
+    private void InstantiateItems()
+    {
+        for (int i = _instantiatedIndex; i < UnlockedItems.Count; i++)
+        {
+            if (_itemCollectionTransforms.Length > i)
+            {
+                var itemParent = _itemCollectionTransforms[i];
+                GameObject item = Instantiate(_unlockedItems[i], itemParent);
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+                item.transform.localScale= Vector3.one;
+                _instantiatedIndex++;
+            }
+        }
+    }
+
     public ItemUnlockInfo GetNextDistanceItem()
     {
         ItemUnlockInfo nextItem = null;
@@ -71,6 +92,7 @@ public class ItemUnlockingManager : MonoBehaviour
     {
         MaybeUnlockDistItem(bestDist);
         MaybeUnlockHeightItem(bestHeight);
+        InstantiateItems();
     }
 
     void MaybeUnlockDistItem(float currentDist)
