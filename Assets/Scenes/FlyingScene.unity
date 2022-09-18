@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: b7d266e72ff46e3448bd44d4a75f8f45, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -6330,15 +6330,21 @@ MonoBehaviour:
       type: 3}
   _flyingManager: {fileID: 751790537}
   _initiallyUnlockedItems:
+  - {fileID: 7616444806375181730, guid: 8e8fa26118a28c14090131d40c9b7fae, type: 3}
   - {fileID: 6277848527934479336, guid: b793c16195df63545a2d12ca49beeb06, type: 3}
-  - {fileID: 8167119946319992830, guid: 89231236331ca824db949d1de523a722, type: 3}
+  - {fileID: 686482026374118429, guid: 07eeddc43f9d89f4aa4c2643b18e9d95, type: 3}
+  - {fileID: 2402691748740721380, guid: badddbca040beb440955a31ae585f7c6, type: 3}
+  - {fileID: 736076491598557367, guid: 73a775571ea4a804ea6e83b1cf21fe45, type: 3}
   - {fileID: 3959229562067336101, guid: 73e17f8b9fcce784e80de4f420df6514, type: 3}
+  - {fileID: 1089778992383355596, guid: 2e42ebeb5ccb3de4e93231366cdcdc2a, type: 3}
   - {fileID: 3692745553827472988, guid: 535ec07f668b43a4ab6e4979744f82a1, type: 3}
   - {fileID: 552240095075645458, guid: 767a3dd0b4a8b6d4e8022e39e504fd76, type: 3}
   - {fileID: 8167119946319992830, guid: 8fdaee588dbf2ac47bd7776515e5b02a, type: 3}
-  - {fileID: 2503942473640080692, guid: 6d4cca20ebad8704b9dfe1fac1897e41, type: 3}
+  - {fileID: 7339614274263613973, guid: 8b10ef74e3a25a749ae3b5cb72fdeadd, type: 3}
+  - {fileID: 8729777169659060979, guid: 5d7c2bdf77ccf1946974c7e5a8295bbe, type: 3}
   - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}
-  - {fileID: 7152060128874669534, guid: de5145159e2f4d94296ea87505d54d25, type: 3}
+  - {fileID: 197010436040454565, guid: 31ec88abd2459b849a125f6a4ea34016, type: 3}
+  - {fileID: 8541610509371991416, guid: 8a228d28f9cb6b7458916bd15f4a891e, type: 3}
   _itemCollection: {fileID: 46711021}
 --- !u!1 &4893643125304269820
 GameObject:
