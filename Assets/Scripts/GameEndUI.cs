@@ -68,10 +68,9 @@ public class GameEndUI : MonoBehaviour
         {
             uiParent.gameObject.SetActive(true);
             if(metersText != null)
-                metersText.text = metersNeeded + "M"; 
-            for (int i = camParent.childCount - 1; i > 0; i--)
-            {
-                Destroy(camParent.GetChild(i).gameObject);
+                metersText.text = metersNeeded + "M";
+            foreach (Transform child in camParent.transform) {
+                Destroy(child.gameObject);
             }
             GameObject g = Instantiate(prefab, camParent);
             Transform[] transforms = g.GetComponentsInChildren<Transform>(true); 
