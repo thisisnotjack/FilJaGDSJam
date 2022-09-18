@@ -16,7 +16,7 @@ public class PlanePhysicsFlightController : MonoBehaviour
     public PhysicsAffector[] physicsAffectors => _physicsAffectors;
     private PlanePhysicsData _planePhysicsData;
     private float _forcesMultiplier = 1;
-    private float _maxVelocity = 200f;
+    private float _maxVelocity = 120f;
 
     protected void Start()
     {
