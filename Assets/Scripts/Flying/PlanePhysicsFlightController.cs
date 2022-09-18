@@ -16,15 +16,29 @@ public class PlanePhysicsFlightController : MonoBehaviour
     public PhysicsAffector[] physicsAffectors => _physicsAffectors;
     private PlanePhysicsData _planePhysicsData;
     private float _forcesMultiplier = 1;
+    private float _maxVelocity = 200f;
 
     protected void Start()
     {
         GameStateManager.instance.gameStateChanged += HandleGameStateChanged;
     }
-    public void ProcessFlight()
+
+    public void ProcessFlight(bool applyEngineForce)
     {
         ApplyForcesForAffectors();
-        ApplyForcesForEngines();
+        if (applyEngineForce)
+        {
+            ApplyForcesForEngines();
+        }
+        LimitMaxVelocity();
+    }
+
+    private void LimitMaxVelocity()
+    {
+        if(_rigidbody.velocity.magnitude > _maxVelocity)
+        {
+            _rigidbody.velocity = _maxVelocity * (_rigidbody.velocity / _rigidbody.velocity.magnitude);
+        }
     }
 
     private void ApplyForcesForAffectors()

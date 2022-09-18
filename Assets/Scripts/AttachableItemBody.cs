@@ -74,7 +74,6 @@ public class AttachableItemBody : MonoBehaviour
         }
         var eulers = transform.rotation.eulerAngles;
         eulers.y = (Mathf.Round(eulers.y / angleToSnapTo)) * angleToSnapTo;
-        print(eulers.y);
         transform.rotation = Quaternion.Euler(eulers);
         from.transform.parent = to.transform;
         transform.parent = from.transform;

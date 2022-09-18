@@ -3662,6 +3662,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 1425616033}
   _baseSoundAudioSource: {fileID: 1808381256110149893}
   _splashSoundAudioSource: {fileID: 1808381256110149894}
+  _domeHitSoundAudioSource: {fileID: 0}
 --- !u!114 &1425616032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3888,7 +3889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1512577621
 Transform:
   m_ObjectHideFlags: 0
@@ -6514,7 +6515,6 @@ MonoBehaviour:
   _attachAudioSource: {fileID: 1114765992410297053}
   _attachSound: {fileID: 8300000, guid: 03b5384004e80344494a5b4e66cfad42, type: 3}
   _detachSound: {fileID: 8300000, guid: 928db4bc98787cb43947e7d9e28e24cb, type: 3}
-  distTest: 20
 --- !u!23 &5304336787592088072
 MeshRenderer:
   m_ObjectHideFlags: 0
