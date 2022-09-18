@@ -15,7 +15,12 @@ public class TransitionManager : Singleton<TransitionManager>
     {
         if(gameState == GameStateManager.GameState.Transition)
         {
+            _transitionCraneController.gameObject.SetActive(true);
             StartTransition();
+        }
+        else
+        {
+            _transitionCraneController.gameObject.SetActive(false);
         }
     }
 

@@ -9,7 +9,8 @@ public class PlaneObject : MonoBehaviour
     [SerializeField] Rigidbody _rigidbody;
     [SerializeField] AudioSource _baseSoundAudioSource;
     [SerializeField] AudioSource _splashSoundAudioSource;
-   
+    [SerializeField] AudioSource _domeHitSoundAudioSource;
+
     public Transform craneAttachPoint => _craneAttachPoint;
     public event System.Action hitWater;
     public AudioSource baseSoundAudioSource => _baseSoundAudioSource;
@@ -18,6 +19,7 @@ public class PlaneObject : MonoBehaviour
     private bool _flightInProgress = false;
     private float _pushStartTime;
     private bool _underwater = false;
+    private bool _hitDome = false;
     private float _baseDrag;
     private float _baseAngularDrag;
 
@@ -41,14 +43,25 @@ public class PlaneObject : MonoBehaviour
         }
         else if(_flightInProgress)
         {
-            _planePhysicsFlightController.ProcessFlight();
+            _planePhysicsFlightController.ProcessFlight(!_hitDome && !_underwater);
         }
     }
 
+    protected void OnCollisionEnter(Collision collision)
+    {
+        var skyDomeLayerMask = LayerMask.GetMask("Sky");
+        if (!_hitDome && skyDomeLayerMask == (skyDomeLayerMask | (1 << collision.gameObject.layer)))
+        {
+            _hitDome = true;
+            _domeHitSoundAudioSource.Play();
+            hitWater?.Invoke();
+            _rigidbody.velocity = Vector3.zero;
+        }
+    }
     protected void OnTriggerEnter(Collider other)
     {
         var waterLayerMask = LayerMask.GetMask("Water");
-        if (!_underwater && waterLayerMask == (waterLayerMask | (1 << other.gameObject.layer)))
+        if (!_underwater && !_hitDome && waterLayerMask == (waterLayerMask | (1 << other.gameObject.layer)))
         {
             _underwater = true;
             _splashSoundAudioSource.Play();
@@ -60,6 +73,7 @@ public class PlaneObject : MonoBehaviour
     public void ResetInternalState()
     {
         _underwater = false;
+        _hitDome = false;
         _flightInProgress = false;
         _startingPushInProgress = false;
         _rigidbody.drag = _baseDrag;
@@ -90,7 +104,6 @@ public class PlaneObject : MonoBehaviour
     public void EnableMovement()
     {
         //TODO
-        print("Enabling movement");
         _rigidbody.isKinematic = false;
     }
 

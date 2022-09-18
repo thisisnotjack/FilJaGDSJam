@@ -33,7 +33,6 @@ public class CameraManager : MonoBehaviour
     }
     private void GameStateChanged(GameStateManager.GameState state)
     {
-        print("menu game state changes to " + state);
         switch (state)
         {
             case GameStateManager.GameState.Menu:
