@@ -50,7 +50,7 @@ public class PlanePhysicsFlightController : MonoBehaviour
     {
         foreach (var engineAffector in _engineAffectors)
         {
-            var engineForceToAdd = engineAffector.centerTransform.rotation * (_forcesMultiplier * engineAffector.engineSrength * engineAffector.engineThrustDirection);
+            var engineForceToAdd = - ((_forcesMultiplier * engineAffector.engineSrength * engineAffector.engineThrustDirection));
             _rigidbody.AddForceAtPosition((1 - _amountOfEnginesToShiftToCenter) * engineForceToAdd, engineAffector.centerTransform.position);
             _rigidbody.AddForce((_amountOfEnginesToShiftToCenter) * engineForceToAdd);
         }
