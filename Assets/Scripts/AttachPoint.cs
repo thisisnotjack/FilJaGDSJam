@@ -96,6 +96,7 @@ public class AttachPoint : MonoBehaviour
                 _itemBody.AttachPointAttached(this, attachPoint);
         }
 
+        BuildingManager.Instance.AttachHappened();
         _attachedTo = attachPoint;
         _previouslyAttachedTo = _attachedTo;
         return true;
@@ -112,7 +113,7 @@ public class AttachPoint : MonoBehaviour
                 //if(_itemBody)
                  //   _itemBody.DetachPointFrom(_attachedTo);
             }
-            
+            BuildingManager.Instance.DetachHappened();
             _attachedTo = null;
         }
     }

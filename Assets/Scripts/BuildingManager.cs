@@ -14,6 +14,12 @@ public class BuildingManager : MonoBehaviour
     public float _rotateSpeed;
     public GameObject _floor;
     public Transform _planeBuildingPositionTransform;
+
+    [Space]
+    [SerializeField] AudioSource _attachAudioSource;
+    [SerializeField] AudioClip _attachSound;
+    [SerializeField] AudioClip _detachSound;
+
     public bool IsDragging => _currentlyDragging != null;
     bool _inBuildingMode = false;
     public GameObject CurrentlyDragging => _currentlyDragging?.gameObject;
@@ -86,6 +92,18 @@ public class BuildingManager : MonoBehaviour
         if (_currentlyDragging == null)
             return;
         _currentlyDragging = null;
+    }
+
+    public void AttachHappened()
+    {
+        _attachAudioSource.clip = _attachSound;
+        _attachAudioSource.Play();
+    }
+
+    public void DetachHappened()
+    {
+        _attachAudioSource.clip = _detachSound;
+        _attachAudioSource.Play();
     }
 
     private void TryGrabObject()

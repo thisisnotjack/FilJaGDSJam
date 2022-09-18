@@ -34,13 +34,15 @@ public class TransitionCraneController : MonoBehaviour
     public IEnumerator ApproachCoroutine()
     {
         PlayCraneMovementSound();
-        _currentMovementTarget = PlaneManager.instance.planeObject.craneAttachPoint.position;
+        var planeObject = PlaneManager.instance.planeObject;
+        var offset = planeObject.craneAttachPoint.position - planeObject.transform.position;
+        _currentMovementTarget = planeObject.craneAttachPoint.position;
         yield return MoveTowardsGoal(_firstPhaseDuration);
         StickPlane();
         Invoke("PlayPlopSound", 0.12f);
         yield return new WaitForSeconds(_waitingDuration);
         PlayCraneMovementSound();
-        _currentMovementTarget = FlyingManager.instance.platformPlanePositionTransform.position;
+        _currentMovementTarget = FlyingManager.instance.platformPlanePositionTransform.position + offset;
         yield return MoveTowardsGoal(_secondPhaseDuration);
         yield return RotatePlane();
         Invoke("PlayPlopSound", 0.2f);
