@@ -64,19 +64,19 @@ public class BuildingManager : MonoBehaviour
         
         RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        Vector3 pos = ray.origin + ray.direction * 5f;
+        Vector3 pos = ray.origin + ray.direction * 20f;
         hits = Physics.RaycastAll(ray, 100f, _buildingLayerMask);
         if (hits.Length > 0)
         {
-            var floorHit = hits[0];
             foreach (var hit in hits)
             {
                 if (hit.transform.gameObject == _floor)
                 {
-                    floorHit = hit;
+                    pos = hit.point;
+                    pos.y = 1;
+                    break;
                 }
             }
-            pos = floorHit.point;
         }
         _draggingParent.transform.position = pos;
     }
@@ -93,14 +93,18 @@ public class BuildingManager : MonoBehaviour
         RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         hits = Physics.RaycastAll(ray, 100f, _buildingLayerMask);
-        if (hits.Length > 1) {
-            GameObject objectHit = hits[1].transform.gameObject;
-            if (objectHit != _floor)
+        if (hits.Length > 0) {
+
+            foreach (var hit in hits)
             {
-                var clicked = objectHit.GetComponent<AttachableItemBody>();
-                if (clicked && clicked.TryGrab(_draggingParent.transform))
+                GameObject objectHit = hit.transform.gameObject;
+                if (objectHit != _floor)
                 {
-                    _currentlyDragging = clicked;
+                    var clicked = objectHit.GetComponent<AttachableItemBody>();
+                    if (clicked && clicked.TryGrab(_draggingParent.transform))
+                    {
+                        _currentlyDragging = clicked;
+                    }
                 }
             }
         }
