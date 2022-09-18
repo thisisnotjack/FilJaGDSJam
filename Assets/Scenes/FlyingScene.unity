@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.002
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.254717, g: 0.2358815, b: 0.18623176, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -6328,7 +6328,7 @@ MonoBehaviour:
   _flyingManager: {fileID: 751790537}
   _initiallyUnlockedItems:
   - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}
-  - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}
+  - {fileID: 3692745553827472988, guid: 535ec07f668b43a4ab6e4979744f82a1, type: 3}
   - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}
   - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}
   - {fileID: 8167119946319992830, guid: 8da5659337d69af43807c7f8b9c7648d, type: 3}

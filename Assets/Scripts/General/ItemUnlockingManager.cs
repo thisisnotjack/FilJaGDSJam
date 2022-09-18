@@ -36,9 +36,9 @@ public class ItemUnlockingManager : MonoBehaviour
     {
         for (int i = _instantiatedIndex; i < UnlockedItems.Count; i++)
         {
-            if (_itemCollectionTransforms.Length > i)
+            if (_itemCollectionTransforms.Length > i + 1)
             {
-                var itemParent = _itemCollectionTransforms[i];
+                var itemParent = _itemCollectionTransforms[i + 1];
                 GameObject item = Instantiate(_unlockedItems[i], itemParent);
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localRotation = Quaternion.identity;
