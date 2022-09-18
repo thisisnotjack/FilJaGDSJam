@@ -30,14 +30,18 @@ public class UIController : MonoBehaviour
                 _buildingUI.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
                 break;
             case GameStateManager.GameState.LaunchPrepearation:
-                DisableAllUI(_launchUI);
+                DisableAllUI(_launchUI,_flyingUI);
                 _launchUI.SetActive(true);
                 _launchUI.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
                 break;
             case GameStateManager.GameState.Flying:
                 DisableAllUI(_flyingUI);
-                _flyingUI.SetActive(true);
-                _flyingUI.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+                if (!_flyingUI.activeSelf)
+                {
+                    _flyingUI.SetActive(true);
+                    _flyingUI.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+                }
+
                 break;
             case GameStateManager.GameState.Transition:
                 DisableAllUI(null);
