@@ -9,6 +9,10 @@ public class TransitionCraneController : MonoBehaviour
     [SerializeField] float _secondPhaseDuration;
     [SerializeField] float _waitingDuration;
     [SerializeField] float _rotationDuration = 0.3f;
+    [Space]
+    [SerializeField] AudioSource _craneAudioSource;
+    [SerializeField] AudioClip _plopSound;
+    [SerializeField] AudioClip _movementSound;
 
     public event System.Action transitionDidFinish;
 
@@ -29,12 +33,16 @@ public class TransitionCraneController : MonoBehaviour
 
     public IEnumerator ApproachCoroutine()
     {
+        PlayCraneMovementSound();
         _currentMovementTarget = PlaneManager.instance.planeObject.craneAttachPoint.position;
+        Invoke("PlayPlopSound", _firstPhaseDuration - 0.2f);
         yield return MoveTowardsGoal(_firstPhaseDuration);
         StickPlane();
         yield return new WaitForSeconds(_waitingDuration);
+        PlayCraneMovementSound();
         _currentMovementTarget = FlyingManager.instance.platformPlanePositionTransform.position;
         yield return MoveTowardsGoal(_secondPhaseDuration);
+        Invoke("PlayPlopSound", _rotationDuration - 0.2f);
         yield return RotatePlane();
         UnstickPlane();
         yield return new WaitForSeconds(_waitingDuration);
@@ -129,6 +137,20 @@ public class TransitionCraneController : MonoBehaviour
         planeObject.DisableColliders();
         _planeFollowComponent.FollowTransform(transform, offset);
     }
+
+    private void PlayPlopSound()
+    {
+        //Play sticking sound
+        _craneAudioSource.clip = _plopSound;
+        _craneAudioSource.Play();
+    }
+
+    private void PlayCraneMovementSound()
+    {
+        _craneAudioSource.clip = _movementSound;
+        _craneAudioSource.Play();
+    }
+
 
     private void UnstickPlane() 
     {

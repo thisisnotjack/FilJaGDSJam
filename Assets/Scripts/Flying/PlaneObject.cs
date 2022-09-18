@@ -7,9 +7,12 @@ public class PlaneObject : MonoBehaviour
     [SerializeField] float _startPushDuration;
     [SerializeField] Transform _craneAttachPoint;
     [SerializeField] Rigidbody _rigidbody;
+    [SerializeField] AudioSource _baseSoundAudioSource;
+    [SerializeField] AudioSource _splashSoundAudioSource;
    
     public Transform craneAttachPoint => _craneAttachPoint;
     public event System.Action hitWater;
+    public AudioSource baseSoundAudioSource => _baseSoundAudioSource;
 
     private bool _startingPushInProgress = false;
     private bool _flightInProgress = false;
@@ -48,6 +51,7 @@ public class PlaneObject : MonoBehaviour
         if (!_underwater && waterLayerMask == (waterLayerMask | (1 << other.gameObject.layer)))
         {
             _underwater = true;
+            _splashSoundAudioSource.Play();
             _planePhysicsFlightController.SetWaterMultipliers();
             hitWater?.Invoke();
         }
