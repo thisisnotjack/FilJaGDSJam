@@ -4,6 +4,7 @@
 		_Color ("Tint", Color) = (1,1,1,1)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
+		_MinLight("Min Light", float) = 0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -22,7 +23,7 @@
 
 		sampler2D _MainTex;
 		fixed4 _Color;
-
+		float _MinLight;
 		void vert (inout appdata_full v) {
 			// the color comes from a texture tinted by color
 			v.color = tex2Dlod(_MainTex, v.texcoord) * _Color;
@@ -37,6 +38,7 @@
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
+			o.Emission = (_MinLight,_MinLight,_MinLight);
 		}
 		ENDCG
 	} 

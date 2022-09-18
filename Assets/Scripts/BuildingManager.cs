@@ -70,7 +70,7 @@ public class BuildingManager : MonoBehaviour
         
         RaycastHit[] hits;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        Vector3 pos = ray.origin + ray.direction * 20f;
+        Vector3 pos = ray.origin + ray.direction * 35f;
         hits = Physics.RaycastAll(ray, 100f, _buildingLayerMask);
         if (hits.Length > 0)
         {
@@ -79,11 +79,11 @@ public class BuildingManager : MonoBehaviour
                 if (hit.transform.gameObject == _floor)
                 {
                     pos = hit.point;
-                    pos.y = 1;
                     break;
                 }
             }
         }
+        pos.y = 1;
         _draggingParent.transform.position = pos;
     }
 
@@ -122,6 +122,7 @@ public class BuildingManager : MonoBehaviour
                     if (clicked && clicked.TryGrab(_draggingParent.transform))
                     {
                         _currentlyDragging = clicked;
+                        return;
                     }
                 }
             }
