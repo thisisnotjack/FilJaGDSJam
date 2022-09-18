@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerOfGravity: {fileID: 595167592870764221}
   _weight: 2
-  _resistance: 2
+  _resistance: 3
 --- !u!1 &3188911042863864088
 GameObject:
   m_ObjectHideFlags: 0

@@ -461,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerOfGravity: {fileID: 6084461809567414996}
   _weight: 1
-  _resistance: 2
+  _resistance: 3
 --- !u!136 &6847851411240376841
 CapsuleCollider:
   m_ObjectHideFlags: 0
